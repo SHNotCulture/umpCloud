@@ -1,0 +1,40 @@
+server:
+  port: 8091
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #测试服务器
+    url: jdbc:mysql://rm-wz9d21p5za0w2ja2x313.mysql.rds.aliyuncs.com:3306/eparking?autoReconnect=true&initialTimeout=3&useUnicode=true&characterEncoding=utf-8
+    username: eparking
+    password: 20peraikgn14@
+    http:
+      multipart-maxFileSize: 10MB
+      multipart-maxRequestSize: 10MB
+  jmx:
+    enabled: false
+  application:
+    name: eparkingUMPcloud
+  security:
+    user:
+      name: admin
+      password: 123456
+#mq配置
+mqtt:
+  host: tcp://yun1.eparking.top:1883
+  clientid: eparkingOnlineServer1
+  topic: epark3rd/getlocalinfo_result/#,eparklocal/requestInfo_1/#
+  username: eparking
+  password: yxQZDbpeGuZT1Hzr
+  timeout: 10
+  keepalive: 20
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    #preferIpAddress: true
+    #prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@yun2.eparking.top:8086/eureka/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@yun2.eparking.top:8087/eureka/eureka/
+  feign:
+    hystrix:
+      enabled: true
